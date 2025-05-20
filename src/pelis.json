@@ -1,1 +1,16 @@
-[]
+[{
+    "id": 4,
+    "title": "Titulo de la película",
+    "tags": ["acción", "favorita", "nueva"]
+  },
+  {
+    "id": 3,
+    "title": "Titulo de la segunda película",
+    "tags": ["favorita", "nueva"]
+  },
+  {
+    "id" : 5,
+    "title": "Otra Pelicula",
+    "tags":["acción","terror"]
+  }
+]
