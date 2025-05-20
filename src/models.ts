@@ -15,14 +15,14 @@ class Peli {
 type SearchOptions = { title?: string; tag?: string };
 
 class PelisCollection{
-  private filepash:string; 
-  constructor(ubicacion:string){
-    this.filepash = ubicacion;
+  private filePath:string; 
+  constructor(filePash:string){
+    this.filePath = filePash;
   }
   getAll(): Promise<Peli[]> {
-    return jsonfile.readFile(this.filepash).then((pelis) => {
+    return jsonfile.readFile(this.filePath).then((pelis) => {
       return pelis;
-    }).catch(() => null);
+    }).catch(() => []);
   }
   add(peli:Peli):Promise<boolean>{
     return this.getAll()
@@ -33,10 +33,10 @@ class PelisCollection{
         }
         else{
           data.push(peli);
-          return jsonfile.writeFile(this.filepash,data).then(() => {return true}).catch(()=>{return false})
+          return jsonfile.writeFile(this.filePath,data).then(() => {return true}).catch(()=>{return false})
         }
       })
-      .catch(()=>{return false})
+      .catch((err)=>{console.log(err);return false});
   }
   getById(id:number):Promise<Peli>{
     return this.getAll()
@@ -56,11 +56,15 @@ class PelisCollection{
       ? pelis.filter((p) => p.tags.includes(options.tag))
       : [];
 
-    const map = new Map<number, Peli>();
-    for (const peli of [...byTitle, ...byTag]) {
-      map.set(peli.id, peli);
-    }
-    return Array.from(map.values());
+      const map = new Map<number, Peli>();
+      for (const peli of [...byTitle, ...byTag]) {
+        map.set(peli.id, peli);
+      }
+      
+      if(options.title && options.tag){
+        return Array.from(map.values()).filter((p) => p.title.includes(options.title) && p.tags.includes(options.tag))
+      }else 
+        return Array.from(map.values());
   }
 }
 export { PelisCollection, Peli };
