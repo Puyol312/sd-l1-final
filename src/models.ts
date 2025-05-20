@@ -15,10 +15,7 @@ class Peli {
 type SearchOptions = { title?: string; tag?: string };
 
 class PelisCollection{
-  private filePath:string; 
-  constructor(filePash:string){
-    this.filePath = filePash;
-  }
+  constructor(private filePath: string = "./src/pelis.json") {}
   getAll(): Promise<Peli[]> {
     return jsonfile.readFile(this.filePath).then((pelis) => {
       return pelis;
