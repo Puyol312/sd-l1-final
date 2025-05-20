@@ -49,7 +49,7 @@ class PelisCollection{
     const pelis = await this.getAll();
 
     const byTitle = options.title
-      ? await pelis.filter((p) => p.title.includes(options.title))
+      ? pelis.filter((p) => p.title.includes(options.title))
       : [];
 
     const byTag = options.tag
